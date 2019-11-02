@@ -13,8 +13,7 @@ public class ALGImplementation {
 	// Variables 
 	private ArrayList<ArrayList<Double>> individuals; 
 	private ArrayList<Problem> problems;
-	private int numOfInputs, numOfSelection, numOfGenerations, S;
-	private int [] benefits, weights; 
+	private int numOfSelection, numOfGenerations;
 	String bestInd;
 	
 	// Constructor
@@ -48,7 +47,7 @@ public class ALGImplementation {
         }*/
 
         ArrayList<ArrayList<Double>> choosenelements = new ArrayList<ArrayList<Double>>();
-        choosenelements.addAll(individuals.subList(0, 5));
+        choosenelements.addAll(individuals.subList(0, 4));
         
         // Perform crossover
         Crossover crossObj = new Crossover(choosenelements);
@@ -59,20 +58,24 @@ public class ALGImplementation {
         	System.out.println(offSprings.get(j));
         }
         
-        
         // Perform mutation
-       // mutation = new Mutation(offSprings, solver);
-        ArrayList<ArrayList<Double>> mutatedOffSprings = mutation.performMutation();
+        mutation = new Mutation(offSprings, numOfGenerations);
+        ArrayList<ArrayList<Double>> mutatedOffSprings = mutation.performMutation(i);
 
-        /*System.out.println("\n ------------ Mutation ------------ ");
+        System.out.println("\n ------------ Mutation ------------ ");
         for (int j = 0; j < numOfSelection; j++) {
-        	System.out.println(mutatedOffSprings[j]);
-        }*/
+        	System.out.println(mutatedOffSprings.get(j));
+        }
         
         // Perform replacement
         replacer = new Replacement(individuals, mutatedOffSprings, solver);
         individuals = replacer.perfomReplacment();
        
+        System.out.println("\n ------------ replacement ------------ ");
+        for (int j = 0; j < individuals.size(); j++) {
+        	System.out.println(individuals.get(i));
+        }
+        
         // Get new best
         //bestInd = solver.getBestInd(individuals, bestInd);
     }
@@ -97,8 +100,8 @@ public class ALGImplementation {
     		individuals = solver.getIndividuals();
     		/*bestInd = solver.getBestInd(individuals, "");
         	*/
-        	for(int i = 0; i < numOfGenerations; i++ ){
-            	executeProcess(j);
+        	for(int i = 0; i < 1; i++ ){
+            	executeProcess(i);
             }
             //System.out.println("Case: "+(j+1)+" "+ solver.fitnessfunction(bestInd));
         }
