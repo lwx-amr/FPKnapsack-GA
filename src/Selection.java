@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 
 // To handle selection process
@@ -5,31 +6,32 @@ public class Selection {
 
     // Variables
     private int numOfSelection;
-    private String[] binary;
+    private ArrayList<ArrayList<Double>> individuals;
 
     // Constructor
-    public Selection(String[] binary , int numOfSelection) {
+    public Selection(ArrayList<ArrayList<Double>> individuals , int numOfSelection) {
         this.numOfSelection = numOfSelection; // We will change this value later
-        this.binary = binary;
+        this.individuals = individuals;
     }
 
     // Selection Process
-    public String [] doSelection(int[] fitnessValues) {
-        int totalweight = 0;
-        String[] choosenelements = new String[numOfSelection];
-        for (int i = 0; i < fitnessValues.length; i++) {
-            totalweight += fitnessValues[i];
+    public ArrayList<ArrayList<Double>> doSelection(ArrayList<Double> fintessValues) {
+        double totalFitness = 0;
+        ArrayList<ArrayList<Double>> choosenelements = new ArrayList<ArrayList<Double>>();
+        for (int i = 0; i < fintessValues.size(); i++) {
+            totalFitness += fintessValues.get(i);
         }
         Random rg = new Random();
         for (int i = 0 ; i < numOfSelection; i++) {
         	int partialsum=0, random, index = 0, lastAddedIndex = 0;
-        	random = rg.nextInt(totalweight - 1);
+        	random = rg.nextInt((int) Math.floor(totalFitness - 1));
 			while(partialsum < random) {
-				partialsum+= fitnessValues[index];
+				partialsum+= fintessValues.get(index);
 				lastAddedIndex = index;
                 index++;
 			}
-			choosenelements[i]=binary[lastAddedIndex];
+			System.out.println(lastAddedIndex);
+			choosenelements.add(individuals.get(lastAddedIndex));
         }
         return choosenelements;
     }

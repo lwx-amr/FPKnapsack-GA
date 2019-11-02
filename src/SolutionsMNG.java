@@ -1,115 +1,95 @@
+import java.util.ArrayList;
 import java.util.Random;
 
 // Handle everything related to solutions individuals
 public class SolutionsMNG {
 
     // Variables
-    private int numOfInd, numOfInputs, S;
-    private String[] individuals;
-    private int[] benefits, weights;
+    private int numOfInd, numOfInputs, indiSize;
+    private Problem problem;
+    private ArrayList<ArrayList<Double>>  individuals;
     
     // Constructor
-    public SolutionsMNG(int numOfIndividuals, int numOfInputs, int[] benefits, int[] weights, int S) {
-        this.numOfInd = numOfIndividuals;
-        this.numOfInputs = numOfInputs;
-        this.individuals = new String[numOfInd];
-        this.benefits = benefits;
-        this.weights = weights;
-        this.S = S;
+    public SolutionsMNG(int numOfInd, Problem problem) {
+    	this.numOfInd = numOfInd;
+    	this.problem = problem;
+    	this.numOfInputs = problem.getPoints().size();
+    	this.indiSize = problem.getDegree() + 1;
+    	this.individuals = new ArrayList<ArrayList<Double>>();
+    	//System.out.println(problem.getDegree());
         this.initialize();
     }
 
 
     // Initialize first random solutions
     public void initialize() {
-    	String currentInd;
+    	ArrayList<Double> currentInd;
         for (int i = 0; i < numOfInd; i++) {
+        	currentInd = new ArrayList<Double>();
         	currentInd = generateInd();
-        	while(!isValid(currentInd)) {
-        		currentInd = generateInd();
-        	}
-        	individuals[i] = currentInd;
+        	individuals.add(currentInd);
         }
     }
 
     // Generate random solution
-    public String generateInd() {
-        String binary = "";
-        int range = (int) Math.pow(2, numOfInputs) - 1;
-        Random rg = new Random();
-        int n = rg.nextInt(range);
-        String binaryrep = toBinary(n);
-        if (binaryrep.length() <= numOfInputs) {
-            for (int i = 0; i < numOfInputs - binaryrep.length(); i++) {
-                binary += "0";
-            }
-            binary += binaryrep;
+    public ArrayList<Double> generateInd() {
+        ArrayList<Double> currentIndi = new ArrayList<Double>();
+        double current;
+        //System.out.println(indiSize);
+        for (int i=0; i<indiSize;i++) {
+        	current = generateRandomD(10.00,-10.00);
+        	currentIndi.add(current);
         }
-        return binary;
+        return currentIndi;
     }
 
-    // Encode generated solutions
-    public static String toBinary(int rand) {
-        String binary = "";
-        while (rand > 0) {
-            binary = ((rand % 2) == 0 ? "0" : "1") + binary;
-            rand = rand / 2;
-        }
-        return binary;
-    }
-
-    // To print individuals
+    // To print individuals1
     public void print() {
         for (int i = 0; i < numOfInd; i++) {
-            System.out.println(individuals[i]);
+        	System.out.println((individuals.get(i)));
         }
     }
 
     // Evaluate individual fitness
-    public int fitnessfunction(String binary) {
-        int b = 0;
-        for (int i = 0; i < binary.length(); i++) {
-            if (binary.charAt(i) == '1') {
-                b += benefits[i];
-            }
-        }
-        return b;
+    public double fitnessFunction(ArrayList<Double> indi) {
+        double fitness = 0;
+        
+        return fitness;
     }
-
+    
     // Calculate fitness function for all individuals
-    public int[] calcAllFintenss() {
-        int[] fitnessValues = new int[numOfInd];
+    public ArrayList<Double> calcAllFintenss() {
+        ArrayList<Double> fitnessValues = new ArrayList<Double>();
         for (int i = 0; i < numOfInd; i++) {
-            fitnessValues[i] = fitnessfunction(individuals[i]);
+            fitnessValues.add(fitnessFunction(individuals.get(i)));
         }
         return fitnessValues;
     }
     
     // Get best indivivdual between some of them
-    public String getBestInd(String [] inds, String currentBest) {
-		String best = currentBest;
-		int maxBenefit = fitnessfunction(currentBest), currentBenefit;
-		for (int i = 0; i < inds.length; i++) {
-			if(isValid(inds[i])){
-				currentBenefit = fitnessfunction(inds[i]);
-				if( currentBenefit > maxBenefit ){
-					maxBenefit = currentBenefit;
-					best = inds[i];
-				}
+    public ArrayList<Double> getBestInd(ArrayList<ArrayList<Double>> inds, ArrayList<Double> currentBest) {
+		ArrayList<Double> best = currentBest;
+		double maxFit = fitnessFunction(currentBest), currentFit;
+		for (int i = 0; i < inds.size(); i++) {
+			currentFit = fitnessFunction(inds.get(i));
+			if( currentFit > maxFit ){
+				maxFit = currentFit;
+				best = inds.get(i);
 			}
         }
 		return best;
 	}
     
-    // Check if solution valid 
-    public boolean isValid(String binary){
-    	int b = 0;
-        for (int i = 0; i < binary.length(); i++) {
-            if (binary.charAt(i) == '1') {
-                b += weights[i];
-            }
-        }
-    	return (b<=S);
+    // To generate random number
+    public double generateRandomD(double max , double min) {
+    	Random randomNum = new Random();
+    	double random = randomNum.nextDouble() * (max-min) + min;
+    	return random;
+    }
+    
+    // Get Individuals
+    public ArrayList<ArrayList<Double>> getIndividuals(){
+    	return individuals;
     }
     
     // Setters and Getters
@@ -131,14 +111,5 @@ public class SolutionsMNG {
 	public void setNumOfInputs(int numOfInputs) {
 		this.numOfInputs = numOfInputs;
 	}
-
-
-	public void setIndividuals(String[] individuals) {
-		this.individuals = individuals;
-	}
-
-    public String[] getIndividuals() {
-    	return this.individuals;
-    }
     
 }

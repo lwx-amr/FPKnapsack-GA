@@ -1,19 +1,20 @@
+import java.util.ArrayList;
 import java.util.Random;
 // Perform mutation
 public class Mutation {
 	
 	// Variables
-	private String[] chromosomes;
+	private ArrayList<ArrayList<Double>> chromosomes;
 	private SolutionsMNG sMNG;
 	
 	// Constructor 
-	public Mutation(String [] inputs, SolutionsMNG sMNG){
+	public Mutation(ArrayList<ArrayList<Double>> inputs, SolutionsMNG sMNG){
 		chromosomes = inputs;
 		this.sMNG = sMNG;
 	}
 	  
     // Return inputs after mutation process
-    public String[] getInputs() {
+    public ArrayList<ArrayList<Double>> getInputs() {
     	return chromosomes;
     }
     
@@ -47,15 +48,8 @@ public class Mutation {
     }
     
     // Do Mutation for all offsprings
-    public String [] performMutation() {
-    	String currentInd;
-    	for(int i = 0 ; i < chromosomes.length ; i++) {
-    		currentInd = changeChromosome(chromosomes[i]);
-        	while(!sMNG.isValid(currentInd)) {
-        		currentInd = changeChromosome(chromosomes[i]);
-        	}
-    		chromosomes[i] = currentInd;
-    	} 
+    public ArrayList<ArrayList<Double>> performMutation() {
+    	
     	return chromosomes;
     }
 }

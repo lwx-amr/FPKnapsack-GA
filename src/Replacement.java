@@ -1,12 +1,15 @@
+import java.util.ArrayList;
+import java.util.Collections;
+
 // Handle replacement process
 public class Replacement {
 
 	// Variable
-	private String [] newGeneration, mutatedOffsprings, individuals;;
+	private ArrayList<ArrayList<Double>> newGeneration, mutatedOffsprings, individuals;;
 	private SolutionsMNG sMNG;
 	
 	// Constructor
-	public Replacement(String[] individuals, String[] mutatedOffsprings, SolutionsMNG sMNG){
+	public Replacement(ArrayList<ArrayList<Double>> individuals, ArrayList<ArrayList<Double>> mutatedOffsprings, SolutionsMNG sMNG){
 		this.setIndividuals(individuals);
 		this.setMutatedOffsprings(mutatedOffsprings);
 		this.sMNG = sMNG;
@@ -14,7 +17,7 @@ public class Replacement {
 	}
 	
 	// To perform elitism replacement
-	public String [] perfomReplacment(){
+	public ArrayList<ArrayList<Double>> perfomReplacment(){
 		/*System.out.println("\n ------------ before ------------ ");
         for (int j = 0; j < individuals.length; j++) {
         	System.out.print(sMNG.fitnessfunction(individuals[j], benefits) + "  ");
@@ -30,8 +33,8 @@ public class Replacement {
         */
 		// Remove lowest
         int index = 0;
-		for (int j = newGeneration.length -1; j > 0 && index < mutatedOffsprings.length ; j--) {
-			newGeneration[j] = mutatedOffsprings[index];
+		for (int j = newGeneration.size() -1; j > 0 && index < mutatedOffsprings.size() ; j--) {
+			newGeneration.add(j,mutatedOffsprings.get(index));
 			index++;
         }
 		
@@ -44,30 +47,28 @@ public class Replacement {
 
 	// Sort individuals DESCENDING
 	public void sortDESC(){
-		int n = individuals.length; 
+		int n = individuals.size(); 
         for (int i = 0; i < n-1; i++) 
             for (int j = 0; j < n-i-1; j++) 
-                if (sMNG.fitnessfunction(individuals[j]) < sMNG.fitnessfunction(individuals[j+1])) {
-                    String tempS = individuals[j]; 
-                    individuals[j] = individuals[j+1]; 
-                    individuals[j+1] = tempS;   
+                if (sMNG.fitnessFunction(individuals.get(j)) < sMNG.fitnessFunction(individuals.get(j+1))) {
+                	Collections.swap(individuals, j, j+1);
                 }
 	}
 	
 	// Setters and getters
-	public String [] getIndividuals() {
+	public ArrayList<ArrayList<Double>> getIndividuals() {
 		return individuals;
 	}
 
-	public void setIndividuals(String [] individuals) {
-		this.individuals = individuals;
+	public void setIndividuals(ArrayList<ArrayList<Double>> individuals2) {
+		this.individuals = individuals2;
 	}
 
-	public String [] getMutatedOffsprings() {
+	public ArrayList<ArrayList<Double>> getMutatedOffsprings() {
 		return mutatedOffsprings;
 	}
 
-	public void setMutatedOffsprings(String [] mutatedOffsprings) {
-		this.mutatedOffsprings = mutatedOffsprings;
+	public void setMutatedOffsprings(ArrayList<ArrayList<Double>> mutatedOffsprings2) {
+		this.mutatedOffsprings = mutatedOffsprings2;
 	}
 }
