@@ -52,10 +52,30 @@ public class SolutionsMNG {
 
     // Evaluate individual fitness
     public double fitnessFunction(ArrayList<Double> indi) {
-        double fitness = 0;
-        
-        return fitness;
+    	int numOfPoints=problem.getPoints().size();
+		ArrayList<Point> points=new ArrayList<Point>();
+		points=problem.getPoints();
+		double segmaResult=0;
+		for(int i=0 ;i <numOfPoints;i++)
+		{
+			double yAcual=points.get(i).getY();
+			double yCalc=calculateY(problem.getPoints().get(i), indi);
+			double difference=yCalc-yAcual;
+			segmaResult+=Math.pow(difference,2);
+		}
+		double fraction=1.0/numOfPoints;
+		double error=fraction*segmaResult;
+		return error;
     }
+    
+    public static double calculateY(Point myPoint, ArrayList<Double> myCoefficients){
+		double xPoint=myPoint.getX();
+		double result=myCoefficients.get(0);
+		for(int i=1;i<myCoefficients.size();i++){
+			result+=myCoefficients.get(i)*Math.pow(xPoint,i);
+		}
+		return result;
+	}
     
     // Calculate fitness function for all individuals
     public ArrayList<Double> calcAllFintenss() {
@@ -67,12 +87,13 @@ public class SolutionsMNG {
     }
     
     // Get best indivivdual between some of them
-    public ArrayList<Double> getBestInd(ArrayList<ArrayList<Double>> inds, ArrayList<Double> currentBest) {
-		ArrayList<Double> best = currentBest;
-		double maxFit = fitnessFunction(currentBest), currentFit;
+    public ArrayList<Double> getBestInd(ArrayList<ArrayList<Double>> inds) {
+		ArrayList<Double> best = new ArrayList<Double>();
+		double maxFit = Double.MAX_VALUE, currentFit;
 		for (int i = 0; i < inds.size(); i++) {
 			currentFit = fitnessFunction(inds.get(i));
-			if( currentFit > maxFit ){
+			//System.out.println("currentFit: " + currentFit + "  maxFit: " +maxFit);
+			if( currentFit < maxFit ){
 				maxFit = currentFit;
 				best = inds.get(i);
 			}

@@ -36,9 +36,12 @@ public class Crossover {
         	offSpring2 = new ArrayList<Double>();
     		
    			Random rand = new Random();
-   			e1 = rand.nextInt((individuals.get(0).size() - 1) ) + 0;
-    		e2 = rand.nextInt((individuals.get(0).size() - 1) ) + 0;
-    		    		
+   			e1 = rand.nextInt((individuals.size() - 1) ) + 0;
+    		e2 = rand.nextInt((individuals.size() - 1) ) + 0;
+    		while(e2==e1) {
+    			e2 = rand.nextInt((individuals.size() - 1) ) + 0;
+    		}
+    		    
     		// Check crossover probability
     		if(generateRandomD(1,0) > pc) {
     			offSprings.add(individuals.get(e1));

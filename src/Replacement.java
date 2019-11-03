@@ -19,38 +19,38 @@ public class Replacement {
 	// To perform elitism replacement
 	public ArrayList<ArrayList<Double>> perfomReplacment(){
 		/*System.out.println("\n ------------ before ------------ ");
-        for (int j = 0; j < individuals.length; j++) {
-        	System.out.print(sMNG.fitnessfunction(individuals[j], benefits) + "  ");
+        for (int j = 0; j < individuals.size(); j++) {
+        	System.out.print(sMNG.fitnessFunction(individuals.get(j))+ "  ");
         }*/
-		sortDESC();
+		sortASC();
 		/*System.out.println("\n ------------ After ------------ ");
-		for (int j = 0; j < individuals.length; j++) {
-        	System.out.print(sMNG.fitnessfunction(individuals[j], benefits) + "  ");
-        }*/
-		 
-        /*System.out.println("\n ----------- After Sort ------------- ");
+		for (int j = 0; j < individuals.size(); j++) {
+        	System.out.print(sMNG.fitnessFunction(individuals.get(j))+ "  ");
+        }	 
+        System.out.println("\n ----------- After Sort ------------- ");
         sMNG.print();
         */
 		// Remove lowest
         int index = 0;
 		for (int j = newGeneration.size() -1; j > 0 && index < mutatedOffsprings.size() ; j--) {
-			newGeneration.add(j,mutatedOffsprings.get(index));
+			newGeneration.remove(j);
+			newGeneration.add(mutatedOffsprings.get(index));
 			index++;
         }
 		
 		/*System.out.println("\n ------------ Before Sub ------------ ");
-		for (int j = 0; j < newGeneration.length; j++) {
-        	System.out.println(newGeneration[j] + "  " + sMNG.fitnessfunction(newGeneration[j], benefits));
+		for (int j = 0; j < newGeneration.size(); j++) {
+        	System.out.println(newGeneration.get(j) + "  " + sMNG.fitnessFunction(newGeneration.get(j)));
         }*/
 		return newGeneration;
 	}
 
 	// Sort individuals DESCENDING
-	public void sortDESC(){
+	public void sortASC(){
 		int n = individuals.size(); 
         for (int i = 0; i < n-1; i++) 
             for (int j = 0; j < n-i-1; j++) 
-                if (sMNG.fitnessFunction(individuals.get(j)) < sMNG.fitnessFunction(individuals.get(j+1))) {
+                if (sMNG.fitnessFunction(individuals.get(j)) > sMNG.fitnessFunction(individuals.get(j+1))) {
                 	Collections.swap(individuals, j, j+1);
                 }
 	}

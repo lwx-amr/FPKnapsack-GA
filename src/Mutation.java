@@ -24,7 +24,7 @@ public class Mutation {
             Random rd = new Random(); // creating Random object
             double ri1 = rd.nextDouble(); // displaying a random double value between 0.0 & 1.0
             double gene = chromosome.get(i);
-            double delta = clucDelta(0.1, 0.7, gene, ri1);
+            double delta = clucDelta(0.05, 0.07, gene, ri1);
             double mutatedGene=0;
             if (ri1 <= 0.5) {
                  mutatedGene = gene - mutationValue(generationNum, delta);

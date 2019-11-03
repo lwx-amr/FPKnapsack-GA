@@ -1,7 +1,13 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -48,6 +54,24 @@ public class FilesController {
 		return problems;
 	}
 	
+	
+	// Write output in file
+	public void writeOutput(ArrayList<Double> bestInd, int j, double fitValue){
+	    try {
+	    	BufferedWriter bw = new BufferedWriter(new FileWriter("output.txt" ,true));
+			bw.write("Case: " + (j+1));
+			bw.newLine();
+			for(int i = 0; i < bestInd.size(); i++ ){
+				bw.write(bestInd.get(i).toString() + "   ");
+	        }
+			bw.write(", Error: " + fitValue);
+			bw.newLine();
+			bw.close();
+	    } catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	// Return inputs
 	public ArrayList<Problem> getInputs() {
 		return this.problems;
@@ -59,17 +83,6 @@ public class FilesController {
 
 	public void setInput(BufferedReader input) {
 		this.input = input;
-	}
-
-	public static void main (String args[]) {
-		FilesController obj = new FilesController("input-2.txt");
-		obj.readInputs();
-		for (int i=0; i < obj.problems.size(); i++) {
-			System.out.println("Size: " + obj.problems.get(i).getSize() + "  Degree: " + obj.problems.get(i).getDegree() + "  Elements: " + obj.problems.get(i).getPoints().size());
-		}
-		/*for (int i=0; i < obj.problems.elementAt(0).getPoints().size(); i++) {
-			System.out.println("X: " + obj.problems.elementAt(0).getPoints().elementAt(i).getX() + "  Y: " + obj.problems.elementAt(0).getPoints().elementAt(i).getY());
-		}*/
 	}
 	
 }
